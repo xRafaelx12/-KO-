@@ -1,10 +1,10 @@
 export default class operador {
-    constructor(cedula, tipoDeOperador, horasTrabajadas, horaBase, horaExtra) {
+    constructor(cedula, tipoDeOperador, horasTrabajadas, precioHoraBase, ) {
         this.cedula = cedula;
         this.tipoDeOperador = tipoDeOperador
         this.horasTrabajadas = horasTrabajadas;
-        this.horaBase = horaBase
-        this.horaExtra = horaExtra
+        this.precioHoraBase = precioHoraBase
+      
     }
 
     set cedula(c) {
@@ -28,46 +28,83 @@ export default class operador {
         return this._horasTrabajadas;
     }
 
-    set horaBase(n) {
-        this._horaBase = +n;
+    set precioHoraBase(n) {
+        this._precioHoraBase = +n;
     }
-    get horaBase() {
-        return this._horaBase;
+    get precioHoraBase() {
+        return this._precioHoraBase;
     }
-    set horaExtra(n) {
-        this._horaExtra = +n;
-    }
-    get horaExtra() {
-        return this._horaExtra;
-    }
-
 
     tipoDeTrabajador() {
         switch (this.tipoDeOperador) {
             case 1:
-                return "supervisor";
+                return "supervisor bono de 32% por hora extra ";
+                return  32;
                 break;
             case 2:
-                return "Diseñador";
+                return "Diseñador bono de 23% por hora extra";
                 break;
             case 3:
-                return "Costurera";
+                return "Costurera bono de 17% por hora extra";
                 break;
             case 4:
-                return "Bordador";
+                return "Bordador bono de 7% por hora extra";
                 break;
             case 5:
-                return "Empacador";
+                return "Empacador bono de 5% por hora extra";
+                break;
+              default:
+                return " el operador no existe";
                 break;
         }
     }
-        precioHoraExtra() {
-            return this.horaBase * (this.horaExtra / 100);
+
+    pagoPorHoraExtra() {
+        switch (this.tipoDeOperador) {
+            case 1:
+                return this.precioHoraBase*(32/100)+this.precioHoraBase
+                break;
+            case 2:
+                return this.precioHoraBase*(23/100)+this.precioHoraBase
+                break;
+            case 3:
+                return this.precioHoraBase*(17/100)+this.precioHoraBase
+                break;
+            case 4:
+                return this.precioHoraBase*(7/100)+this.precioHoraBase
+                break;
+            case 5:
+                return this.precioHoraBase*(5/100)+this.precioHoraBase
+                break;
+                default:
+                return " el operador no existe";
+                break;
         }
-        precioSinBase(){
-            return this.horaExtra-this.horaBase
+    }
+        HoraExtra() {
+            if (this.horasTrabajadas > 40) {
+            return this.horasTrabajadas -40;
+          }else{
+            return 0;
+           }
+        
+        }
+        maximoDeHorasBase(){
+            if (this.horasTrabajadas >40){
+                return this.horasTrabajadas-this.HoraExtra();
+            }else{
+                return this.horasTrabajadas-0;
+            }               
+        }
+
+        CantidadBonoPorHoraExtra(){
+            return this.pagoPorHoraExtra()-this.precioHoraBase
+        }
+        PrecioDeLaHoraExtra(){
+            return this.precioHoraBase*this.pagoPorHoraExtra
+       
         }
         totalACobrar(){
-            return this.h
+            return (this.precioHoraBase*this.maximoDeHorasBase())+(this.HoraExtra()*this.pagoPorHoraExtra())
         }
     }
